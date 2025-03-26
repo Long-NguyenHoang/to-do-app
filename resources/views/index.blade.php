@@ -4,6 +4,7 @@
 
 @section('content')
 
+    <a href="{{route('tasks.create')}}">+ Create</a>
     <table>
         <tr>
             <th>ID</th>
@@ -18,7 +19,15 @@
                     <td>{{$task->id}}</td>
                     <td>{{$task->title}}</td>
                     <td>{{$task->completed==true?'COMPLETED':'UNCOMPLETED'}}</td>
-                    <td><a href="{{route('task.detail',['id'=>$task->id])}}">Detail</a></td>
+                    <td>
+                        <a href="{{route('tasks.detail', ['id'=>$task->id])}}">Detail</a>
+                        <a href="{{route('tasks.edit', ['id'=>$task->id])}}">Edit</a>
+                        <form action="{{route('tasks.delete', ['id'=>$task->id])}}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         @else
