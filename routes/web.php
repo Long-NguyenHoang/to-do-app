@@ -6,7 +6,8 @@ use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $tasks = Task::latest('id')->get();
+    // $tasks = Task::latest('id')->get();
+    $tasks = Task::latest('id')->paginate();
     return view('index', ['tasks'=>$tasks]);
 })->name('tasks.index');
 
@@ -61,6 +62,12 @@ Route::delete('tasks/{id}', function ($id) {
     $task->delete();
     return redirect()->route('tasks.index')->with('success', 'Task deleted successfully');
 })->name('tasks.delete');
+
+Route::put('tasks/{id}/toggle-completed', function ($id) {
+    $task = Task::findOrFail($id);
+    $task->toggleCompleted();
+    return redirect()->route('tasks.index')->with('success', 'Task completed status updated');
+})->name('tasks.toggle-completed');
 
 // Route::get('/greeting', function () {
 //     return "Hello World";
