@@ -11,8 +11,8 @@
         public function rules(): array {
             return [
                 'title' => 'required|max:255',
-                'description' => 'required',
-                'long_description' => 'required'
+                'description' => 'required|min:3|max:255',
+                'long_description' => 'required|min:3|max:255'
             ];
         }
     }
